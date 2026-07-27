@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { CreateGasto } from "../dto/create-gasto.dto";
 import { GastosService } from "../service/gastos.service";
+import { CreateCategoria } from "../dto/create-categoria.dto";
 
 @Controller("/gastos")
 export class GastosController {
@@ -9,6 +10,27 @@ export class GastosController {
     @Post()
     async registrarGasto(@Body() dto: CreateGasto) {
         return this.gastoService.registrarGasto(dto);
+    }
+
+    @Get()
+    async listarGastosByUser(@Query("idUser") idUser: number) {
+        return this.gastoService.gastosByIdUser(+idUser);
+    }
+
+    @Post("/categoria")
+    async adicionarCategoria(@Body() dto: CreateCategoria) {
+        return this.gastoService.criarCategorias(dto)
+    }
+
+    @Get("/categoria")
+    async listarByCategoria(
+        @Query("idCategoria") idCategoria: number,
+        @Query("idUser") idUser: number){
+
+        return this.gastoService.gastosByCategoria(idCategoria, idUser);
+
+        
+
     }
 
 

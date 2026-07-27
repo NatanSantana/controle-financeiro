@@ -18,10 +18,15 @@ model User {
   idUser        Int         @id @default(autoincrement())
   senha         String
   nome          String      
-  telefone      String         @unique
-  email         String         @unique
+  telefone      String      @unique
+  email         String      @unique
+  rendaMensal   Int         @default(0)  
 
-  gastos Gastos[]
+  gastos      Gastos[]
+
+  gastosFixos GastosFixos[]
+
+  categoriaGasto CategoriasGasto[]
 
   @@map("user")
 }
@@ -33,7 +38,33 @@ model Gastos {
     descricao   String?
     idUser      Int
     user        User       @relation(fields: [idUser], references: [idUser])
+    dataCompra  DateTime?
+
+    idCategoria     Int?
+    categoriaGasto  CategoriasGasto? @relation(fields: [idCategoria], references: [idCategoria])
 
 
   @@map("gastos")
+}
+
+model GastosFixos {
+  id          Int     @id @default(autoincrement())
+  valor       Int
+  descricao   String
+  idUser      Int
+  user        User    @relation(fields: [idUser], references: [idUser])
+
+  @@map("gastosFixos")
+
+}
+
+model CategoriasGasto {
+  idCategoria Int     @id @default(autoincrement())
+  nome        String
+
+  idUser      Int
+  user        User    @relation(fields: [idUser], references: [idUser])
+
+  gastos Gastos[]
+  @@map("categoriaGasto")
 }

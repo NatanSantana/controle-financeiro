@@ -12,5 +12,37 @@ export class GastoRepository {
         })
     }
 
+    listarTodosGastosByIdUser(idUser: number) {
+        return Prisma.gastos.findMany({
+            where: {
+                idUser: idUser
+            }
+        })
+    }
+
+    findById(id: number) {
+        return Prisma.gastos.findUnique({
+            where: {
+                idGastos: id
+            }
+        })
+    }
+
+    listarGastosByCategoria(idCategoria: number, idUser: number) {
+        return Prisma.gastos.findMany({
+            select: {
+                descricao: true,
+                valor: true,
+                dataCompra: true,
+                categoriaGasto: {
+                    select: {
+                        nome: true
+                    }
+                }
+            }
+        })
+
+    }
+
 
 }

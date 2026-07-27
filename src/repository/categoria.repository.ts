@@ -1,0 +1,15 @@
+import { Injectable } from "@nestjs/common";
+import { CreateCategoria } from "../dto/create-categoria.dto";
+import { Prisma } from "../../prisma/prisma.service"
+
+@Injectable()
+export class CategoriaRepository {
+
+    adicionarCategoria(dto: CreateCategoria) {
+        return Prisma.categoriasGasto.create({
+            data: dto
+        })
+    }
+
+
+}

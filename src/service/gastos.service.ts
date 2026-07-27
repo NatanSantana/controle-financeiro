@@ -1,12 +1,15 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, UseGuards } from "@nestjs/common";
 import { CreateGasto } from "../dto/create-gasto.dto";
 import { GastoRepository } from "../repository/gastos.repository";
 import { UserRepository } from "../repository/user.repository";
+import { CreateCategoria } from "../dto/create-categoria.dto";
+import { CategoriaRepository } from "../repository/categoria.repository";
 
 @Injectable()
 export class GastosService {
     constructor(private gastosRepository: GastoRepository,
-                private userRepository: UserRepository
+                private userRepository: UserRepository, 
+                private categoriaRepository: CategoriaRepository
     ){}
 
 
@@ -19,10 +22,48 @@ export class GastosService {
             throw new NotFoundException("Não foi possível encontrar o usuário")
         }
 
+        dto.dataCompra = new Date();
+
         return this.gastosRepository.registrarGasto(dto)
 
+    }
+
+    async gastosByIdUser(idUser: number) {
+        const gastos = await this.gastosRepository.listarTodosGastosByIdUser(idUser);
+
+        if (!gastos) {
+            throw new NotFoundException("Não foi possível encontrar gastos com esse idUser")
+        }
+
+        return gastos;
+    }
+
+    async gastosByCategoria(idCategoria: number, idUser: number) {
+        const gastos = await this.gastosRepository
+                                .listarGastosByCategoria(idCategoria, idUser);
+
+        if(!gastos) {
+            throw new 
+            NotFoundException("Não foi possível encontrar gastos relacionados a essa categoria")
+        }
+
+        return gastos;
 
 
     }
+
+    async criarCategorias(dto: CreateCategoria) {
+        const user = await this.userRepository.findById(dto.idUser);
+            
+        if (!user) {
+            throw new NotFoundException("Não foi possível encontrar o usuário")
+        }
+        
+        return await this.categoriaRepository.adicionarCategoria(dto);
+ 
+
+    }
+
+
 
 }
