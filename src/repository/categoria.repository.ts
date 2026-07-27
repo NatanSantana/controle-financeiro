@@ -11,5 +11,13 @@ export class CategoriaRepository {
         })
     }
 
+    findById(idCategoria: number) {
+        return Prisma.categoriasGasto.findUnique({
+            where: {
+                idCategoria: idCategoria
+            }
+        })
+    }
+
 
 }

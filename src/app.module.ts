@@ -7,9 +7,10 @@ import { UserService } from './service/user.service';
 import { UserModule } from './module/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { GastosModule } from './module/gastos.module';
+import { RelatorioModule } from './module/relatorio.module';
 
 @Module({
-  imports: [AuthModule, UserModule, GastosModule, ConfigModule.forRoot()],
+  imports: [AuthModule, UserModule, GastosModule, RelatorioModule, ConfigModule.forRoot()],
   controllers: [],
   providers: [],
 })
