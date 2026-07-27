@@ -46,7 +46,7 @@ export class RelatoriosService {
         return resultado
 
     } catch {
-        throw new Error("Erro")
+        throw new Error("Falha na requisição")
     }
     }
 
@@ -64,9 +64,6 @@ export class RelatoriosService {
         }
 
         return relatorio;
-
-
-
 
     }
 
