@@ -28,7 +28,7 @@ export class GastosController {
         @Query("idCategoria") idCategoria: number,
         @Query("idUser") idUser: number){
 
-        return this.gastoService.gastosByCategoria(idCategoria, idUser);
+        return this.gastoService.gastosByCategoria(+idCategoria, +idUser);
     }
 
     @Post("/fixo")

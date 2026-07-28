@@ -6,6 +6,7 @@ import { CreateCategoria } from "../dto/create-categoria.dto";
 import { CategoriaRepository } from "../repository/categoria.repository";
 import { CreateGastoFixo } from "../dto/create-gastofixo.dto";
 import { GastosFixosRepository } from "../repository/gastos-fixos.repository";
+import { stringify } from "node:querystring";
 
 @Injectable()
 export class GastosService {
@@ -17,6 +18,7 @@ export class GastosService {
 
 
     async registrarGasto(dto: CreateGasto) {
+
         if(dto.valor <= 0) {
             throw new BadRequestException("O valor do gasto não pode ser 0 ou menor")
         }

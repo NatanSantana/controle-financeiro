@@ -39,6 +39,9 @@ export class GastoRepository {
                         nome: true
                     }
                 }
+            },
+            where: {
+                idCategoria: idCategoria
             }
         })
 
