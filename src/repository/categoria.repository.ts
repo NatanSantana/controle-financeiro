@@ -19,5 +19,13 @@ export class CategoriaRepository {
         })
     }
 
+    allCategoriasByUser(idUser: number) {
+        return Prisma.categoriasGasto.findMany({
+            where: {
+                idUser: idUser
+            }
+        })
+    }
+
 
 }

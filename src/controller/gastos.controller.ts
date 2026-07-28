@@ -36,4 +36,9 @@ export class GastosController {
         return this.gastoService.adicionarGastoFixo(dto);
     }
 
+    @Get("/listar-categorias")
+    async allCategoriasByUser(@Query("idUser") idUser: number) {
+        return this.gastoService.allCategoriasByUser(+idUser);
+    }
+
 }

@@ -13,7 +13,7 @@ import { UserRepository } from "../repository/user.repository";
       global: true,
       useFactory: () => ({
         secret: process.env.JWT,
-        signOptions: { expiresIn: '1d' },
+        signOptions: { expiresIn: '1h' },
       }),
     }),
   ],
