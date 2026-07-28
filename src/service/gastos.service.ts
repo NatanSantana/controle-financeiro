@@ -64,6 +64,23 @@ export class GastosService {
         
         return await this.categoriaRepository.adicionarCategoria(dto);
  
+    }
+
+    async allCategoriasByUser(idUser) {
+        const user = await this.userRepository.findById(idUser);
+        if(!user) {
+            throw new NotFoundException("Usuário não encontrado")
+        }
+
+
+        const categorias = 
+            await this.categoriaRepository.allCategoriasByUser(idUser);
+
+        if (!categorias) {
+            throw new NotFoundException("Não há categorias")
+        }
+
+        return categorias;
 
     }
 
