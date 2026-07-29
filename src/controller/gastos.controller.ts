@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, Delete } from "@nestjs/common";
 import { CreateGasto } from "../dto/create-gasto.dto";
 import { GastosService } from "../service/gastos.service";
 import { CreateCategoria } from "../dto/create-categoria.dto";
@@ -39,6 +39,21 @@ export class GastosController {
     @Get("/listar-categorias")
     async allCategoriasByUser(@Query("idUser") idUser: number) {
         return this.gastoService.allCategoriasByUser(+idUser);
+    }
+
+    @Get("/listar-gastosFixos")
+    async listarGastoFixosByUser(@Query("idUser") idUser: number) {
+        return await this.gastoService.listarGastosFixos(+idUser);
+    }
+
+    @Get("/listar-gastosMes")
+    async listarGastosPorMes(@Query("idUser") idUser: number, @Query("mes") mes: string) {
+        return this.gastoService.listarGastosPorMes(+idUser, mes);
+    }
+
+    @Delete("/deletarGasto")
+    async deletarGasto(@Query("idUser") idUser: number, @Query("idGastos") idGastos: number) {
+        return this.gastoService.excluirGasto(+idUser, +idGastos);
     }
 
 }

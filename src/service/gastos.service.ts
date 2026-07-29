@@ -43,6 +43,34 @@ export class GastosService {
         return gastos;
     }
 
+    async listarGastosPorMes(idUser: number, mes: string) {
+        if (!mes) {
+            throw new BadRequestException("O mês deve ser inserido")
+        }
+
+        const gastos = await this.gastosRepository.ListarGastosPorMes(idUser, mes);
+        if (!gastos) {
+            throw new NotFoundException("Não foi possível encontrar gastos com esse idUser")
+        }
+
+        return gastos;
+    }
+
+    async excluirGasto(idUser: number, idGastos: number) {
+        try {
+            if(!idUser || !idGastos) {
+            throw new BadRequestException("O idUser e o idGastos deve ser preenchdio")
+        }
+
+
+        const gastoExcluido = await this.gastosRepository.excluirGasto(idUser, idGastos);
+        return gastoExcluido
+        } catch {
+            throw new NotFoundException("Compra não encontrada")
+        }
+        
+    }
+
     async gastosByCategoria(idCategoria: number, idUser: number) {
         const gastos = await this.gastosRepository
                                 .listarGastosByCategoria(idCategoria, idUser);
@@ -98,6 +126,15 @@ export class GastosService {
 
         return await this.gastoFixoRepository.adicionar(dto);
 
+    }
+
+    async listarGastosFixos(idUser: number) {
+        const gastos = await this.gastoFixoRepository.listarGastosFixosByUser(idUser);
+        if (!gastos) {
+            throw new NotFoundException("Não encontrado nenhum dado");
+        }
+
+        return gastos;
     }
 
 

@@ -10,4 +10,13 @@ export class GastosFixosRepository {
             data: dto
         })
     }
+
+    listarGastosFixosByUser(idUser: number) {
+        return Prisma.gastosFixos.findMany({
+            where: {
+                idUser: idUser
+            }
+        })
+    }
+
 }

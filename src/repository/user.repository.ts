@@ -28,4 +28,15 @@ export class UserRepository {
         })
     }
 
+    buscarRendaMensal(idUser: number) {
+        return Prisma.user.findUnique({
+            select: {
+                rendaMensal: true
+            },
+            where: {
+                idUser: idUser
+            }
+        })
+    }
+
 }

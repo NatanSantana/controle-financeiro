@@ -51,5 +51,16 @@ export class UserService {
 
     }
 
+    async rendaMensal(idUser: number) {
+        const rendaMensal = await this.userRepository.buscarRendaMensal(idUser);
+        if(!rendaMensal) {
+            throw new NotFoundException("Renda não encontrada");
+        }
+
+        return rendaMensal;
+
+
+    }
+
 
 }

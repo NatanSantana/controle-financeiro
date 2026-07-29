@@ -27,13 +27,15 @@ export class RelatorioRepository {
     }
 
     async relatorioMensal(idUser: number) {
+        const data = new Date();
+        const mes = data.toISOString().slice(0,7);
         return Prisma.$queryRaw`
     WITH  gastosUser AS (
   SELECT gg.nome, g.valor
   FROM "gastos" g
-  JOIN "categoriaGasto" gg
+  JOIN "categoriaGasto" gg  
   ON g."idCategoria" = gg."idCategoria"
-  WHERE g."idUser" = ${idUser}
+  WHERE g."idUser" = ${idUser} AND TO_CHAR("dataCompra", 'YYYY-MM') LIKE ${mes + '%'}
 )
 
 SELECT nome AS categoria, SUM(valor) AS total

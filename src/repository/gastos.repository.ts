@@ -15,9 +15,33 @@ export class GastoRepository {
     listarTodosGastosByIdUser(idUser: number) {
         return Prisma.gastos.findMany({
             where: {
+                idUser: idUser,
+                
+                
+            },
+            orderBy: {
+                dataCompra: 'desc'
+            }
+        })
+    }
+
+    excluirGasto(idUser: number, idGastos) {
+        return Prisma.gastos.delete({
+            where: {
+                idGastos: idGastos,
                 idUser: idUser
             }
         })
+    }
+    
+    ListarGastosPorMes(idUser: number, mes: string) {
+        return Prisma.$queryRaw`
+        SELECT "idGastos", "valor", "descricao", "dataCompra"
+        FROM "gastos"
+        WHERE TO_CHAR("dataCompra", 'YYYY-MM') LIKE ${mes + '%'}
+        AND "idUser" = ${idUser}
+        ORDER BY "idGastos"
+    `
     }
 
     findById(id: number) {
