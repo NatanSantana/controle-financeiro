@@ -28,14 +28,18 @@ export class RelatorioRepository {
 
     async relatorioMensal(idUser: number) {
         return Prisma.$queryRaw`
-    SELECT 
-      CASE
-        WHEN gg."nome" IS NULL THEN 'outros' ELSE gg."nome"::text END AS categoria,
-      SUM(g.valor)::float AS total
-    FROM "gastos" g
-    LEFT JOIN "categoriaGasto" gg ON g."idCategoria" = gg."idCategoria"
-    GROUP BY gg.nome
-    ORDER BY total DESC
+    WITH  gastosUser AS (
+  SELECT gg.nome, g.valor
+  FROM "gastos" g
+  JOIN "categoriaGasto" gg
+  ON g."idCategoria" = gg."idCategoria"
+  WHERE g."idUser" = ${idUser}
+)
+
+SELECT nome AS categoria, SUM(valor) AS total
+FROM gastosUser
+GROUP BY(nome)
+ORDER BY total DESC
   `;
 }
 }
