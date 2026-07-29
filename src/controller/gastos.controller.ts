@@ -56,4 +56,9 @@ export class GastosController {
         return this.gastoService.excluirGasto(+idUser, +idGastos);
     }
 
+    @Delete("/deletarCategoria")
+    async deletarCategoria(@Query("idUser") idUser: number, @Query("idCategoria") idCategoria: number) {
+        return this.gastoService.excluirCategoria(+idCategoria,+idUser);
+    }
+
 }

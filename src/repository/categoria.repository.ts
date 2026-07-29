@@ -27,5 +27,14 @@ export class CategoriaRepository {
         })
     }
 
+    deletarCategoriaByidCategoria(idCategoria: number, idUser) {
+        return Prisma.categoriasGasto.delete({
+            where: {
+                idCategoria: idCategoria,
+                idUser
+            }
+        })
+    }
+
 
 }

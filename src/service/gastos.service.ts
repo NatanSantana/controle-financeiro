@@ -7,6 +7,7 @@ import { CategoriaRepository } from "../repository/categoria.repository";
 import { CreateGastoFixo } from "../dto/create-gastofixo.dto";
 import { GastosFixosRepository } from "../repository/gastos-fixos.repository";
 import { stringify } from "node:querystring";
+import { timeStamp } from "node:console";
 
 @Injectable()
 export class GastosService {
@@ -69,6 +70,16 @@ export class GastosService {
             throw new NotFoundException("Compra não encontrada")
         }
         
+    }
+
+    async excluirCategoria(idCategoria: number, idUser: number) {
+        if(!idUser || !idCategoria) {
+            throw new BadRequestException("O idUser e o idCategoria deve ser preenchdio")
+        }
+
+        const categoria = await this.categoriaRepository.deletarCategoriaByidCategoria(idCategoria, idUser);
+
+        return categoria;
     }
 
     async gastosByCategoria(idCategoria: number, idUser: number) {
