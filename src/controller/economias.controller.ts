@@ -10,7 +10,7 @@ export class EconomiaController {
 
     @UseGuards(AuthGuard)
     @Post("/guardar")
-    guardarDinheiro(dto: CreateEconomia) {
+    guardarDinheiro(@Body() dto: CreateEconomia) {
         return this.economiaService.guardarDinheiro(dto);
     }
 
