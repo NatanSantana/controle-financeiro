@@ -18,7 +18,7 @@ export class EconomiaService {
         if(!user) {
             throw new NotFoundException("Usuário não encontrado")
         }
-        dto.data = new Date()
+        
         return await this.economiaRepository.guardarDinheiro(dto);
 
     }
