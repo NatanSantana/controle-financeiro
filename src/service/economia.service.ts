@@ -55,10 +55,10 @@ export class EconomiaService {
         return valorAtualizado; 
     }
 
-    async diminuirValor(idUser: number, valorAumentar: number) {
-        const diminuirValor = await this.economiaRepository.diminuirValor(idUser, valorAumentar)
+    async diminuirValor(idUser: number, valorDiminuir: number) {
+        const diminuirValor = await this.economiaRepository.diminuirValor(idUser, valorDiminuir)
 
-        if(diminuirValor) {
+        if(!diminuirValor) {
             throw new NotFoundException("Economia não encontrada")
         }
 
