@@ -28,9 +28,22 @@ model User {
 
   categoriaGasto CategoriasGasto[]
 
+  economia     Economia[]
+
   @@map("user")
 }
 
+model Economia {
+
+      idEconomia  Int   @id @default(autoincrement())
+      valor       Int
+
+      idUser      Int   @unique
+      user        User  @relation(fields: [idUser], references: [idUser])
+
+      @@map("economia")
+}
+ 
 model Gastos {
   
     idGastos    Int        @id @default(autoincrement())
