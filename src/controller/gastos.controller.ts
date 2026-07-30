@@ -4,6 +4,7 @@ import { GastosService } from "../service/gastos.service";
 import { CreateCategoria } from "../dto/create-categoria.dto";
 import { CreateGastoFixo } from "../dto/create-gastofixo.dto";
 import { AuthGuard } from "../security/auth.guard";
+import { CurrentUser } from "../decorator/current-user.decorator";
 
 @Controller("/gastos")
 export class GastosController {
@@ -17,7 +18,7 @@ export class GastosController {
 
     @UseGuards(AuthGuard)
     @Get()
-    async listarGastosByUser(@Query("idUser") idUser: number) {
+    async listarGastosByUser(@CurrentUser('sub') idUser: number) {
         return this.gastoService.gastosByIdUser(+idUser);
     }
 
@@ -31,7 +32,7 @@ export class GastosController {
     @Get("/categoria")
     async listarByCategoria(
         @Query("idCategoria") idCategoria: number,
-        @Query("idUser") idUser: number){
+        @CurrentUser('sub') idUser: number){
 
         return this.gastoService.gastosByCategoria(+idCategoria, +idUser);
     }
@@ -44,32 +45,38 @@ export class GastosController {
 
     @UseGuards(AuthGuard)
     @Get("/listar-categorias")
-    async allCategoriasByUser(@Query("idUser") idUser: number) {
+    async allCategoriasByUser(@CurrentUser('sub') idUser: number) {
         return this.gastoService.allCategoriasByUser(+idUser);
     }
 
     @UseGuards(AuthGuard)
     @Get("/listar-gastosFixos")
-    async listarGastoFixosByUser(@Query("idUser") idUser: number) {
+    async listarGastoFixosByUser(@CurrentUser('sub') idUser: number) {
         return await this.gastoService.listarGastosFixos(+idUser);
     }
 
     @UseGuards(AuthGuard)
     @Get("/listar-gastosMes")
-    async listarGastosPorMes(@Query("idUser") idUser: number, @Query("mes") mes: string) {
+    async listarGastosPorMes(@CurrentUser('sub') idUser: number, @Query("mes") mes: string) {
         return this.gastoService.listarGastosPorMes(+idUser, mes);
     }
 
     @UseGuards(AuthGuard)
     @Delete("/deletarGasto")
-    async deletarGasto(@Query("idUser") idUser: number, @Query("idGastos") idGastos: number) {
+    async deletarGasto(@CurrentUser('sub') idUser: number, @Query("idGastos") idGastos: number) {
         return this.gastoService.excluirGasto(+idUser, +idGastos);
     }
 
     @UseGuards(AuthGuard)
     @Delete("/deletarCategoria")
-    async deletarCategoria(@Query("idUser") idUser: number, @Query("idCategoria") idCategoria: number) {
+    async deletarCategoria(@CurrentUser('sub') idUser: number, @Query("idCategoria") idCategoria: number) {
         return this.gastoService.excluirCategoria(+idCategoria,+idUser);
+    }
+
+    @UseGuards(AuthGuard)
+    @Delete("/deletar-gastoFixo")
+    async deletarGastoFixo(@Query("id") id: number, @CurrentUser('sub') idUser: number) {
+        return this.gastoService.excluirGastoFixo(+id, +idUser);
     }
 
 }

@@ -96,6 +96,17 @@ export class GastosService {
 
     }
 
+    async excluirGastoFixo(id: number, idUser: number) {
+        const excluido = await this.gastoFixoRepository.excluirGastoFixo(id, idUser);
+
+        if (!excluido) {
+            throw new NotFoundException("Gasto fixo não encontrado")
+        }
+
+        return excluido;
+
+    }
+
     async criarCategorias(dto: CreateCategoria) {
         const user = await this.userRepository.findById(dto.idUser);
             

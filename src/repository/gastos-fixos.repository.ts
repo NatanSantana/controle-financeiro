@@ -19,4 +19,13 @@ export class GastosFixosRepository {
         })
     }
 
+    excluirGastoFixo(id: number, idUser: number) {
+        return Prisma.gastosFixos.delete({
+            where: {
+                id: id,
+                idUser: idUser
+            }
+        })
+    }
+
 }
