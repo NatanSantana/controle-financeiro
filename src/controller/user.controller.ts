@@ -1,7 +1,8 @@
-import { Body, Controller, Post, Query, Get } from "@nestjs/common";
+import { Body, Controller, Post, Query, Get, UseGuards } from "@nestjs/common";
 import { CreateUser } from "../dto/create-user.dto";
 import { UserService } from "../service/user.service";
 import { CurrentUser } from "../decorator/current-user.decorator";
+import { AuthGuard } from "../security/auth.guard";
 
 @Controller("/user")
 export class UserController {
@@ -18,6 +19,7 @@ export class UserController {
         return this.userService.login(body.email, body.senha);
     }
 
+    @UseGuards(AuthGuard)
     @Get("/rendaMensal")
     async rendaMensal(@CurrentUser('sub') idUser: number) {
         return this.userService.rendaMensal(+idUser);
