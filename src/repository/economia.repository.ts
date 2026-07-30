@@ -6,6 +6,14 @@ import { lt } from "date-fns/locale"
 @Injectable()
 export class EconomiaRepository {
 
+    findByIdUser(idUser: number) {
+        return Prisma.economia.findUnique({
+            where: {
+                idUser: idUser
+            }
+        })
+    }
+
     guardarDinheiro(dto: CreateEconomia) {
         return Prisma.economia.create({
             data: dto
@@ -13,7 +21,7 @@ export class EconomiaRepository {
     }
 
     listarEconomiasById(idUser: number) {
-        return Prisma.economia.findMany({
+        return Prisma.economia.findFirst({
             where: {
                 idUser: idUser
             }

@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import { CreateEconomia } from "../dto/create-economia.dto";
 import { EconomiaRepository } from "../repository/economia.repository";
 import { UserRepository } from "../repository/user.repository";
+import { EconomiaModule } from "../module/economias.module";
 
 @Injectable()
 export class EconomiaService {
@@ -11,6 +12,12 @@ export class EconomiaService {
     }
 
     async guardarDinheiro(dto: CreateEconomia) {
+        const isCadastrado = await this.economiaRepository.findByIdUser(dto.idUser)
+
+        if (isCadastrado) {
+            return await this.economiaRepository.aumentarValor(dto.idUser, dto.valor);
+        }
+
         if (dto.valor <= 0) {
             throw new BadRequestException("O valor não pode ser negativo")
         }
@@ -39,12 +46,9 @@ export class EconomiaService {
         }
         const economias = await this.economiaRepository.listarEconomiasById(idUser);
 
-        let total = 0;
-        economias.map(e => total += e.valor)
+        
 
-        return {
-            "total": total
-        }
+        return economias
     }
 
     async aumentarValor(idUser: number, valorAumentar: number) {
