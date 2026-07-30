@@ -21,65 +21,55 @@ export class EconomiaRepository {
     }
 
     async diminuirValor(idUser: number, valorDiminuir: number) {
-        const encontrado = await Prisma.economia.findFirst({
-            where: {
-                idUser: idUser,
-                valor: {
-                    lte: valorDiminuir
-                }
+    const encontrado = await Prisma.economia.findFirst({
+        where: {
+            idUser: idUser,
+            valor: {
+                gte: valorDiminuir
             }
-        })
-
-        if (!encontrado) {
-            throw new NotFoundException("Valor não encontrado")
         }
+    })
 
-        const valorAtual = encontrado.valor - valorDiminuir;
-
-        return Prisma.economia.update({
-            data: {
-                valor: valorAtual
-            },
-            where: {
-                idEconomia: encontrado.idEconomia,
-                idUser: idUser,
-                valor: {
-                    lte: valorDiminuir
-                }
-
-            }
-        })
+    if (!encontrado) {
+        throw new NotFoundException("Saldo insuficiente ou economia não encontrada")
     }
+
+    const valorAtual = encontrado.valor - valorDiminuir; 
+
+    return Prisma.economia.update({
+        data: {
+            valor: valorAtual
+        },
+        where: {
+            idEconomia: encontrado.idEconomia
+        }
+    })
+}
 
 
     async aumentarValor(idUser: number, valorAumentar: number) {
-        const encontrado = await Prisma.economia.findFirst({
-            where: {
-                idUser: idUser,
-                valor: {
-                    lte: valorAumentar
-                }
+    const encontrado = await Prisma.economia.findFirst({
+        where: {
+            idUser: idUser,
+            valor: {
+                gte: valorAumentar
             }
-        })
-
-        if (!encontrado) {
-            throw new NotFoundException("Valor não encontrado")
         }
+    })
 
-        const valorAtual = encontrado.valor + valorAumentar;
-
-        return Prisma.economia.update({
-            data: {
-                valor: valorAtual
-            },
-            where: {
-                idEconomia: encontrado.idEconomia,
-                idUser: idUser,
-                valor: {
-                    lte: valorAumentar
-                }
-
-            }
-        })
+    if (!encontrado) {
+        throw new NotFoundException("Saldo insuficiente ou economia não encontrada")
     }
+
+    const valorAtual = encontrado.valor + valorAumentar; 
+
+    return Prisma.economia.update({
+        data: {
+            valor: valorAtual
+        },
+        where: {
+            idEconomia: encontrado.idEconomia
+        }
+    })
+}
 }
