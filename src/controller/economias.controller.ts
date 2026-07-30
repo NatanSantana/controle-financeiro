@@ -1,4 +1,4 @@
-import { Post, UseGuards, Get, Controller, Put, Patch, Query } from "@nestjs/common";
+import { Post, UseGuards, Get, Controller, Body, Patch, Query } from "@nestjs/common";
 import { CreateEconomia } from "../dto/create-economia.dto";
 import { EconomiaService } from "../service/economia.service";
 import { AuthGuard } from "../security/auth.guard";
