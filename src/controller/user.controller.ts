@@ -18,7 +18,7 @@ export class UserController {
     }
 
     @Get("/rendaMensal")
-    async rendaMensal(@Query("idUser") idUser: number) {
+    async rendaMensal(@CurrentUser('sub') idUser: number) {
         return this.userService.rendaMensal(+idUser);
     }
 
