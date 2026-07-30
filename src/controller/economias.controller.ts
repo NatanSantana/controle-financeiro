@@ -29,13 +29,13 @@ export class EconomiaController {
     @UseGuards(AuthGuard)
     @Patch("/aumentar")
     aumentarValor(@CurrentUser('sub') idUser: number, @Query('valorAumentar') valorAumentar: number) {
-        return this.economiaService.aumentarValor(idUser, valorAumentar)
+        return this.economiaService.aumentarValor(+idUser, +valorAumentar)
     }
 
     @UseGuards(AuthGuard)
     @Patch("/diminuir")
     diminuirValor(@CurrentUser('sub') idUser: number, @Query('valorDiminuir') valorDiminuir: number) {
-        return this.economiaService.diminuirValor(idUser, valorDiminuir)
+        return this.economiaService.diminuirValor(+idUser, +valorDiminuir)
     }
 }
 
