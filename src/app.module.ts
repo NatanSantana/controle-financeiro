@@ -11,7 +11,14 @@ import { RelatorioModule } from './module/relatorio.module';
 import { EconomiaModule } from './module/economias.module';
 
 @Module({
-  imports: [AuthModule, UserModule, GastosModule, RelatorioModule, EconomiaModule, ConfigModule.forRoot()],
+  imports: [
+    AuthModule,
+    UserModule,
+    GastosModule,
+    RelatorioModule,
+    EconomiaModule,
+    ConfigModule.forRoot(),
+  ],
   controllers: [],
   providers: [],
 })

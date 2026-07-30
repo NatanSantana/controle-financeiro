@@ -1,40 +1,37 @@
-import { Injectable } from "@nestjs/common";
-import { CreateCategoria } from "../dto/create-categoria.dto";
-import { Prisma } from "../../prisma/prisma.service"
+import { Injectable } from '@nestjs/common';
+import { CreateCategoria } from '../dto/create-categoria.dto';
+import { Prisma } from '../../prisma/prisma.service';
 
 @Injectable()
 export class CategoriaRepository {
+  adicionarCategoria(dto: CreateCategoria) {
+    return Prisma.categoriasGasto.create({
+      data: dto,
+    });
+  }
 
-    adicionarCategoria(dto: CreateCategoria) {
-        return Prisma.categoriasGasto.create({
-            data: dto
-        })
-    }
+  findById(idCategoria: number) {
+    return Prisma.categoriasGasto.findUnique({
+      where: {
+        idCategoria: idCategoria,
+      },
+    });
+  }
 
-    findById(idCategoria: number) {
-        return Prisma.categoriasGasto.findUnique({
-            where: {
-                idCategoria: idCategoria
-            }
-        })
-    }
+  allCategoriasByUser(idUser: number) {
+    return Prisma.categoriasGasto.findMany({
+      where: {
+        idUser: idUser,
+      },
+    });
+  }
 
-    allCategoriasByUser(idUser: number) {
-        return Prisma.categoriasGasto.findMany({
-            where: {
-                idUser: idUser
-            }
-        })
-    }
-
-    deletarCategoriaByidCategoria(idCategoria: number, idUser) {
-        return Prisma.categoriasGasto.delete({
-            where: {
-                idCategoria: idCategoria,
-                idUser
-            }
-        })
-    }
-
-
+  deletarCategoriaByidCategoria(idCategoria: number, idUser) {
+    return Prisma.categoriasGasto.delete({
+      where: {
+        idCategoria: idCategoria,
+        idUser,
+      },
+    });
+  }
 }

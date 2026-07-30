@@ -1,35 +1,34 @@
-import { Injectable } from "@nestjs/common";
-import { Prisma } from "../../prisma/prisma.service"
-import { subMonths } from "date-fns"
+import { Injectable } from '@nestjs/common';
+import { Prisma } from '../../prisma/prisma.service';
+import { subMonths } from 'date-fns';
 
 @Injectable()
 export class RelatorioRepository {
+  gastoMensalByCategoria(idUser: number, idCategoria: number) {
+    return Prisma.gastos.findMany({
+      select: {
+        descricao: true,
+        valor: true,
+        categoriaGasto: {
+          select: {
+            nome: true,
+          },
+        },
+      },
+      where: {
+        dataCompra: {
+          gte: subMonths(new Date(), 1),
+          lt: new Date(),
+        },
+        idCategoria: idCategoria,
+      },
+    });
+  }
 
-    gastoMensalByCategoria(idUser: number, idCategoria: number) {
-        return Prisma.gastos.findMany({
-            select: {
-                descricao: true,
-                valor: true,
-                categoriaGasto: {
-                    select: {
-                        nome: true
-                    }
-                }
-            },
-            where: {
-                dataCompra: {
-                    gte: subMonths(new Date(), 1),
-                    lt: new Date(), 
-                },
-                idCategoria: idCategoria
-            }
-        })
-    }
-
-    async relatorioMensal(idUser: number) {
-        const data = new Date();
-        const mes = data.toISOString().slice(0,7);
-        return Prisma.$queryRaw`
+  async relatorioMensal(idUser: number) {
+    const data = new Date();
+    const mes = data.toISOString().slice(0, 7);
+    return Prisma.$queryRaw`
     WITH  gastosUser AS (
   SELECT gg.nome, g.valor
   FROM "gastos" g
@@ -43,5 +42,5 @@ FROM gastosUser
 GROUP BY(nome)
 ORDER BY total DESC
   `;
-}
+  }
 }

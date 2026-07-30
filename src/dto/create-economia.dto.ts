@@ -1,13 +1,9 @@
-
 export class CreateEconomia {
+  valor: number;
+  idUser: number;
 
-    valor: number
-    idUser: number
-    
-
-    constructor(valor: number, idUser: number) {
-        this.valor = valor
-        this.idUser = idUser
-    }
-
+  constructor(valor: number, idUser: number) {
+    this.valor = valor;
+    this.idUser = idUser;
+  }
 }
