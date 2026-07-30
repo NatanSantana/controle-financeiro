@@ -40,7 +40,7 @@ export class GastoRepository {
         FROM "gastos"
         WHERE TO_CHAR("dataCompra", 'YYYY-MM') LIKE ${mes + '%'}
         AND "idUser" = ${idUser}
-        ORDER BY "idGastos"
+        ORDER BY "dataCompra" DESC
     `
     }
 
