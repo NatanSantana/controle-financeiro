@@ -58,10 +58,7 @@ export class EconomiaRepository {
     async aumentarValor(idUser: number, valorAumentar: number) {
     const encontrado = await Prisma.economia.findFirst({
         where: {
-            idUser: idUser,
-            valor: {
-                gte: valorAumentar
-            }
+            idUser: idUser
         }
     })
 
