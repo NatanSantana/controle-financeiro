@@ -12,6 +12,17 @@ export class GastoRepository {
 
   listarTodosGastosByIdUser(idUser: number) {
     return Prisma.gastos.findMany({
+      select: {
+        idGastos: true,
+        descricao: true,
+        valor: true,
+        dataCompra: true,
+        categoriaGasto: {
+          select: {
+            nome: true
+          }
+        }
+      },
       where: {
         idUser: idUser,
       },
